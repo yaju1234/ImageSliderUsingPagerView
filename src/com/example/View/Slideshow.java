@@ -3,6 +3,7 @@ package com.example.View;
 import com.example.Adapter.ImagePagerAdapter;
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.ViewPager;
 
 public class Slideshow extends Activity{
@@ -52,6 +53,8 @@ public class Slideshow extends Activity{
 			
 	};
 	  
+	Handler handler = new Handler();
+	Runnable runnable;
   
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,8 +62,28 @@ public class Slideshow extends Activity{
         setContentView(R.layout.pager);
        
 	pager = (ViewPager) findViewById(R.id.pager);
-	pager.setAdapter(new ImagePagerAdapter(imgid,this));	
+	
+	/**
+	 * Call Pager Adapter
+	 */
+	pager.setAdapter(new ImagePagerAdapter(imgid,this));
+	
+	/**
+	 * Set Current position
+	 */
 	pager.setCurrentItem(mPagerPos);
+	
+	/**
+	 *  Auto flip
+	 */
+	runnable = new Runnable(){
+		   public void run() {
+		     handler.postDelayed(runnable, 5000);
+		     pager.setCurrentItem(pager.getCurrentItem() + 1, true); 
+		  } 
+		 };
+		 handler.postDelayed(runnable, 5000);
+	
     }	
 	
 }
